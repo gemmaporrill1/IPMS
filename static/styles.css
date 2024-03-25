@@ -5,6 +5,7 @@ body{
 .navbar {
     background-color: rgb(84, 147, 189); 
     overflow: hidden;
+    margin: 0;
   }
   
   .navbar li {
@@ -24,7 +25,22 @@ body{
     color: rgb(0, 117, 201);
     background-color: rgb(227, 224, 222); 
   }
-  
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgb(84, 147, 189); 
+  color: white;
+  text-align: center;
+}
+
+.footer-text{
+  text-align: center;
+  color: white
+}
 
 h3{
     color: rgb(0, 117, 201);

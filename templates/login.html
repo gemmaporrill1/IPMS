@@ -9,13 +9,15 @@
 <body>
 <div class="login-container">
     <h3>Login</h3>
-    <div class="login-form">
+    <form class="login-form" 
+    action="{{url_for('home_page')}}"
+    method="POST">
     <h6>Username</h6>
-    <input type="text" />
+    <input name="username" type="text" />
     <h6>Password</h6>
-    <input type="password" />
+    <input name="password" type="password" />
     <input type="submit" value="Login" />
-</div>
+    </form>
 </div>
 </body>
 </html>

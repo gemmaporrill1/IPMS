@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h3>Add New Customer</h3>
+
+    <form class="add-customer-form"
+    action="{{url_for('customer_management')}}"
+    method="POST">
+        <h6>Customer name</h6>
+        <input name="name" type="text" />
+        <h6>Customer Email</h6>
+        <input name="email" type="text" />
+        <h6>Policy</h6>
+        <select name="policy">
+            {% for policy in policies %}
+            <option>{{policy.name}}</option>
+            {% endfor %}
+        </select>
+        <h6>Starting Date</h6>
+        <input name="startDate" type="date" /> 
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+{% endblock %}
