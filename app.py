@@ -75,17 +75,6 @@ def home_page():
 
 @app.route("/customer", methods=["GET", "POST"])
 def customer_management():
-    def policy_length(start_date):
-        current_date = datetime.now()
-        start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        years_difference = current_date.year - start_date.year
-        if current_date.month < start_date.month or (
-            current_date.month == start_date.month and current_date.day < start_date.day
-        ):
-            years_difference -= 1
-
-        return years_difference
-
     if request.method == "POST":
         max_id = max([int(customer["id"]) for customer in customers])
         new_id = str(max_id + 1)
@@ -114,8 +103,9 @@ def policy_page():
 
 
 @app.route("/claims", methods=["GET"])
-def claims_page():
-    return render_template("claims.html", customers=customers)
+def claim_calculation():
+
+    return render_template("claims.html", customers=customers, policies=policies)
 
 
 @app.route("/add_customer", methods=["GET"])
@@ -131,3 +121,16 @@ def delete_customer(id):
     if selected_customer:
         customers.remove(selected_customer)
     return render_template("customer.html", customers=customers)
+
+
+# date calculation
+def policy_length(start_date):
+    current_date = datetime.now()
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    years_difference = current_date.year - start_date.year
+    if current_date.month < start_date.month or (
+        current_date.month == start_date.month and current_date.day < start_date.day
+    ):
+        years_difference -= 1
+
+    return years_difference

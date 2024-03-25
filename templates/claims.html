@@ -3,7 +3,9 @@
 {% block body %}
 <div class="container">
     <h3>Claims Calculator</h3>
-    <form class="claim-form">
+    <form class="claims-form"
+    action="{{url_for('claim_calculation')}}"
+    method="POST">
         <label for="customers">Select a customer:</label>
         <select name="customers">
             {% for customer in customers %}
