@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
 
-@app.route("/login")
+@app.route("/")
 def login_page():
     return render_template("login.html")
 
