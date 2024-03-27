@@ -6,10 +6,11 @@
     {% for policy in policies %}
     <div class="card">
             <h5>{{policy.name}}</h5>
-            <p>{{policy.description}}</p>
-            <p>R{{policy.premium}} per month</p>
-            <p>For {{policy.length}} years</p>
-            <p>Payout amount: R{{policy.payOut}}</p>
+            <p class="payout">R{{policy.payout}}</p>
+            <p class="premium">R{{policy.premium}} per month</p>
+            <p class="length">{{policy.length}} years</p>
+            <p class="description">{{policy.description}}</p>
+            
     </div>
     {% endfor %}
 </div>
