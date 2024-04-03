@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +12,12 @@
   />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <nav class="nav-style">
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/customer">Customer Management</a></li>
-            <li><a href="/policy">Policies</a></li>
-            <li><a href="/claims">Claims Calculator</a></li>
-            <!-- <li><a class="login-link" href="/login">Login</a></li> -->
-        </ul>
-    </nav>
-    {% block body %}
-    {% endblock %}
+<body class="landing-page">
+    <img src="https://logodix.com/logo/1625333.jpg" class="logo"/>
+<div class="background-card">
+    <h3>Insurance Policy Management System</h3>
+</div>
+    <p class="welcome">Please navigate to the login page to begin</p>
+    <button onclick="window.location.href='/login'" class="btn btn-primary">Login</button>
 </body>
 </html>

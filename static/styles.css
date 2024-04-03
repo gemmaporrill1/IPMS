@@ -1,18 +1,54 @@
 body{
     font-family: "Roboto", sans-serif;
+    
 }
 
-.navbar {
+.landing{
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-page {
+  background-image: url('life.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+
+.background-card{
+  background-color: rgba(255, 255, 255, 0.742);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.welcome{
+  font-size: 16px;
+  font-style: italic;
+}
+
+.logo{
+  height:150px;
+  width:auto;
+  border-radius: 50%;
+  margin-bottom: 30px;
+}
+
+.nav-style {
     background-color: rgb(84, 147, 189); 
     overflow: hidden;
     margin: 0;
+    margin-bottom: 30px;
   }
   
-  .navbar li {
+  .nav-style li {
     display: block; 
   }
 
-  .navbar a{
+  .nav-style a{
     float: left; 
     display: block; 
     color: white; 
@@ -21,7 +57,7 @@ body{
     text-decoration: none; 
   }
   
-  .navbar a:hover {
+  .nav-style a:hover {
     color: rgb(0, 117, 201);
     background-color: rgb(227, 224, 222); 
   }
@@ -56,7 +92,6 @@ h3{
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: rgb(227, 224, 222);
-    align-items: center;
   }
   
   .login-form {
@@ -207,6 +242,3 @@ table {
     text-align: center;
   }
 
-  input{
-    text-align: center;
-  }

@@ -4,15 +4,23 @@
 <div class="container">
     <h3>Claims Calculator</h3>
     <form class="claims-form"
-    action="{{url_for('claims_page')}}"
-    method="POST">
-        <label for="customers">Select a customer:</label>
-        <select name="customers">
+          action="{{ url_for('claims.calculate_claim') }}"
+          method="POST">
+        <label for="customer">Select a customer:</label>
+        <select name="customerID" id="customer">
             {% for customer in customers %}
-                <option>{{ customer.name }}</option>
+                <option value="{{ customer.id }}">{{ customer.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Continue</button>
+        <br>
+        <label for="policy">Select a policy:</label>
+        <select name="policyID" id="policy">
+            {% for policy in policies %}
+                <option value="{{ policy.id }}">{{ policy.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Calculate Claim</button>
     </form>
 </div>
 {% endblock %}
