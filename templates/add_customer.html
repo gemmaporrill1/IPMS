@@ -11,9 +11,9 @@
         <h6>Customer Email</h6>
         <input name="email" type="text" />
         <h6>Policy</h6>
-        <select name="policy">
+        <select name="policyID">
             {% for policy in policies %}
-            <option>{{policy.name}}</option>
+            <option value="{{policy.policyID}}">{{policy.name}}</option>
             {% endfor %}
         </select>
         <h6>Starting Date</h6>

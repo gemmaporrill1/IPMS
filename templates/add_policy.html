@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h3>Add New Policy</h3>
+
+    <form class="add-customer-form"
+    action="{{url_for('policy_page')}}"
+    method="POST">
+        <h6>Policy name</h6>
+        <input name="name" type="text" />
+        <h6>Description</h6>
+        <textarea name="description"></textarea>
+        <h6>Premium per month</h6>
+        <input name="premium" type="number" />
+        <h6>Length of Policy</h6>
+        <input name="length" type="number" /> 
+        <h6>Payout Amount</h6>
+        <input name="payout" type="number" /> 
+        <button type="submit">Add Policy</button>
+    </form>
+</div>
+{% endblock %}

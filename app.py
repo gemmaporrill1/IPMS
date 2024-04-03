@@ -1,8 +1,9 @@
 import os
 import uuid
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -37,6 +38,8 @@ class Policy(db.Model):
     length = db.Column(db.Integer)
     payout = db.Column(db.Integer)
 
+    customers = relationship("Customer", backref="policy")
+
     # JSON = keys
     def to_dict(self):
         return {
@@ -69,38 +72,6 @@ class Customer(db.Model):
         }
 
 
-# customers = [
-#     {
-#         "id": 1,
-#         "name": "John Smith",
-#         "email": "johnsmith@email.com",
-#         "policy": "Health",
-#         "startDate": "2020-01-01",
-#     },
-#     {
-#         "id": 2,
-#         "name": "Jane Smith",
-#         "email": "janesmith@email.com",
-#         "policy": "Vehicle",
-#         "startDate": "2021-04-01",
-#     },
-#     {
-#         "id": 3,
-#         "name": "Doug Brown",
-#         "email": "dougbrown@email.com",
-#         "policy": "Health",
-#         "startDate": "2018-12-01",
-#     },
-#     {
-#         "id": 4,
-#         "name": "Henry Pants",
-#         "email": "hp12@email.com",
-#         "policy": "Life",
-#         "startDate": "2023-01-01",
-#     },
-# ]
-
-
 @app.route("/")
 def login_page():
     return render_template("login.html")
@@ -117,26 +88,41 @@ def customer_management():
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
-        policy = request.form.get("policy")
+        policy_id = request.form.get("policyID")
         start_date = request.form.get("startDate")
         customers_data = Customer(
             name=name,
             email=email,
-            policy=policy,
+            policyID=policy_id,
             startDate=start_date,
         )
         db.session.add(customers_data)
         db.session.commit()
 
     for customer in customers:
-        customer["years_difference"] = policy_length(customer["startDate"])
+        customer.years_difference = policy_length(customer.startDate)
 
     return render_template("customer.html", customers=customers)
 
 
-@app.route("/policy", methods=["GET"])
+@app.route("/policy", methods=["GET", "POST"])
 def policy_page():
     policies = Policy.query.all()
+    if request.method == "POST":
+        name = request.form.get("name")
+        description = request.form.get("description")
+        premium = request.form.get("premium")
+        length = request.form.get("length")
+        payout = request.form.get("payout")
+        policies_data = Policy(
+            name=name,
+            description=description,
+            premium=premium,
+            length=length,
+            payout=payout,
+        )
+        db.session.add(policies_data)
+        db.session.commit()
     return render_template("policy.html", policies=policies)
 
 
@@ -154,23 +140,25 @@ def add_customer_page():
     return render_template("add_customer.html", policies=policies)
 
 
+@app.route("/add_policy", methods=["GET"])
+def add_policy_page():
+    return render_template("add_policy.html")
+
+
 # fix this part
 @app.route("/customer/<id>/delete")
 def delete_customer(id):
-    customers = Policy.query.get(id)
-
-    selected_customer = next(
-        (customer for customer in customers if customer["id"] == id), None
-    )
+    selected_customer = Policy.query.get(id)
     if selected_customer:
-        customers.remove(selected_customer)
-    return render_template("customer.html", customers=customers)
+        db.session.delete(selected_customer)
+        db.session.commit()
+
+    return redirect("/customer")
 
 
 # date calculation
 def policy_length(start_date):
     current_date = datetime.now()
-    start_date = datetime.strptime(start_date, "%Y-%m-%d")
     years_difference = current_date.year - start_date.year
     if current_date.month < start_date.month or (
         current_date.month == start_date.month and current_date.day < start_date.day

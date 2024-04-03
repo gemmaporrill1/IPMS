@@ -165,8 +165,7 @@ table {
   }
 
   .payout{
-    font-size: 24px;
-    color:grey;
+    font-size: 28px;
     text-align: center;
   }
 
@@ -184,6 +183,13 @@ table {
     color: grey;
   }
 
+  .payout_description{
+    font-size: 16px;
+    font-style: italic;
+    color: grey;
+    text-align: center;
+  }
+
   h6{
     color: rgb(0, 117, 201);
     text-align: center;
@@ -198,5 +204,9 @@ table {
   .welcome-message{
     font-size: 16px;
     color: grey;
+    text-align: center;
+  }
+
+  input{
     text-align: center;
   }
