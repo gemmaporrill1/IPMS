@@ -97,28 +97,7 @@ h3{
   .login-form {
     display: flex;
     flex-direction: column;
-  }
-  
-  .login-form input[type="text"],
-  .login-form input[type="password"] {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-    button[type="submit"] {
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    background-color: rgb(0, 117, 201);
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .login-form input[type="submit"]:hover {
-    background-color: rgb(84, 147, 189);
+    
   }
   
 table {
@@ -164,8 +143,9 @@ table {
   }
 
   .card-container {
-    display: flex;
-    justify-content: space-between; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 20px;
   }
   
   .card {
@@ -195,7 +175,7 @@ table {
 
   img{
     height: auto;
-    width: 500px;
+    width: auto;
 
   }
 
@@ -242,3 +222,35 @@ table {
     text-align: center;
   }
 
+  .btn-div{
+    text-align: center;
+    justify-content: center;
+  }
+
+  .btn-message{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .stats-message{
+    font-size: 20px;
+    color: grey;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .stats-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 20px;
+  }
+
+.stats-card{
+  border: 3px solid;
+  border-radius: 10px;
+  border-color: rgb(0, 117, 201);
+  padding: 10px;
+  justify-content: center;
+  align-self: center;
+}

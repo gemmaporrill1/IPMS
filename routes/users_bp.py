@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask_login import login_user
+from flask_login import login_required, login_user
 from extensions import db
 from models.user import User
 from flask_wtf import FlaskForm
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 users_bp = Blueprint("users", __name__)
@@ -42,8 +43,9 @@ class LoginForm(FlaskForm):
         if user_creds:
             form_password = field.data
             user_data = user_creds.to_dict()
-            if user_data["password"] != form_password:
-                raise ValidationError("Wrong credentials")
+
+            if not check_password_hash(user_data["password"], form_password):
+                raise ValidationError("Invalid credentials")
 
 
 @users_bp.route("/register", methods=["GET", "POST"])
@@ -51,13 +53,18 @@ def register_page():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        user_data = {"username": form.username.data, "password": form.password.data}
+        password_hash = generate_password_hash(form.password.data)
+        user_data = {"username": form.username.data, "password": password_hash}
 
         new_user = User(**user_data)
         try:
             db.session.add(new_user)
             db.session.commit()
-            return f"<h1>{user_data['username']} User added Successfully</h1>"
+            flash("Logged in successfully.")
+
+            next = request.args.get("next")
+
+            return redirect(next or url_for("login_page"))
         except Exception as e:
             db.session.rollback()
             return f"<h1>Error happened {str(e)}</h1>", 500
@@ -76,5 +83,5 @@ def login_page():
 
         next = request.args.get("next")
 
-        return redirect(next or url_for("movies_list.movie_list_page"))
+        return redirect(next or url_for("home.home_page"))
     return render_template("login.html", form=form)

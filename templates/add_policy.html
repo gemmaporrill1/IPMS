@@ -4,10 +4,12 @@
     <h3>Add New Policy</h3>
 
     <form class="add-customer-form"
-    action="{{url_for('policy_page')}}"
+    action="{{url_for('policies.policy_page')}}"
     method="POST">
         <h6>Policy name</h6>
         <input name="name" type="text" />
+        <h6>Cover Image</h6>
+        <input name="image" type="text" />
         <h6>Description</h6>
         <textarea name="description"></textarea>
         <h6>Premium per month</h6>
@@ -16,7 +18,7 @@
         <input name="length" type="number" /> 
         <h6>Payout Amount</h6>
         <input name="payout" type="number" /> 
-        <button type="submit">Add Policy</button>
+        <button type="submit" class="btn btn-success">Add Policy</button>
     </form>
 </div>
 {% endblock %}

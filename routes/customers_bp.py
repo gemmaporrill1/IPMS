@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, render_template, request
+from flask_login import login_required
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db
 from models.customer import Customer
@@ -9,6 +10,7 @@ customers_bp = Blueprint("customers", __name__)
 
 
 @customers_bp.route("/customer", methods=["GET", "POST"])
+@login_required
 def customer_management():
     customers = Customer.query.all()
     if request.method == "POST":
@@ -32,6 +34,7 @@ def customer_management():
 
 
 @customers_bp.route("/add_customer", methods=["GET"])
+@login_required
 def add_customer_page():
     policies = Policy.query.all()
     return render_template("add_customer.html", policies=policies)
@@ -39,6 +42,7 @@ def add_customer_page():
 
 # fix this part
 @customers_bp.route("/customer/<id>/delete")
+@login_required
 def delete_customer(id):
     selected_customer = Policy.query.get(id)
     if selected_customer:

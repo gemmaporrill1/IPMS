@@ -7,9 +7,9 @@
     {% for policy in policies %}
     <div class="card">
             <h5>{{policy.name}}</h5>
-            <p class="payout_description">Up to <span class="payout">R{{policy.payout}}</span> in payout</p>
+            <img src="{{policy.image}}" name="image"/>
+            <p class="payout_description"><span class="payout">R{{policy.payout}}</span> minimum in payout</p>
             <p class="premium">R{{policy.premium}} per month</p>
-            <p class="length">{{policy.length}} years</p>
             <p class="description">{{policy.description}}</p>
             
     </div>

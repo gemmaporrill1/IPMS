@@ -3,6 +3,8 @@
 {% block body %}
 <div class="container">
     <h3>Claim Estimate</h3>
-    <p>The estimated claim amount is: {{ claim_amount }}</p>
+    <p>{{customer.name}} has been a loyal cusotmer since {{customer.startDate}}</p>
+    <p>This means he has contributed R{{policy.premium}} per month for x numbers of years</p>
+    <p>{{customer.name}} is entitled to: R{{ claim_amount }} as a claim amount given that the minumum payout is R{{policy.payout}}</p>
 </div>
 {% endblock %}

@@ -13,6 +13,7 @@ class Policy(db.Model):
     premium = db.Column(db.Float)
     length = db.Column(db.Integer)
     payout = db.Column(db.Integer)
+    image = db.Column(db.String(500))
 
     customers = relationship("Customer", backref="policy")
 

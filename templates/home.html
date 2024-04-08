@@ -2,7 +2,28 @@
 
 {% block body %}
 <div class="container">
-    <h3>Welcome, {{username}}</h3>
-    <p class="welcome-message">Current Statistics Dashboard</p>
+    <!-- fix username -->
+    <h3>Welcome, {{user.username}}</h3> 
+    <div class="btn-div">
+    <p class="btn-message">What would you like to get started with?</p>
+    <button class="add-button" onclick="window.location.href='/customer'">Customer Management</button>
+    <button class="add-button" onclick="window.location.href='/policy'">Policy Management</button><br>
+    <button class="add-button" onclick="window.location.href='/claims'">⭐Calculate a Claim⭐</button>
+    </div>
+    <hr>
+    <div class="stats-div">
+    <p class="stats-message">Current Statistics Dashboard</p>
+    <div class="stats-container">
+    <div class="stats-card">
+        <h3>{{claim_count}}</h3>
+        <p class="welcome-message">Amount of claims calculated to date</p>
+    </div>
+    <div class="stats-card">
+        <h3>{{customer_count}}</h3>
+        <p class="welcome-message">Loyal customers</p>
+    </div>
+    </div>
+    </div>
+
 </div>
 {% endblock %}

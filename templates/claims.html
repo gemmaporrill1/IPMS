@@ -6,21 +6,23 @@
     <form class="claims-form"
           action="{{ url_for('claims.calculate_claim') }}"
           method="POST">
-        <label for="customer">Select a customer:</label>
+        <label for="customer">Select the customer:</label>
         <select name="customerID" id="customer">
             {% for customer in customers %}
-                <option value="{{ customer.id }}">{{ customer.name }}</option>
+                <option value="{{ customer.customerID }}">{{ customer.name }}</option>
             {% endfor %}
         </select>
         <br>
         <label for="policy">Select a policy:</label>
         <select name="policyID" id="policy">
             {% for policy in policies %}
-                <option value="{{ policy.id }}">{{ policy.name }}</option>
+                <option value="{{ policy.policyID }}">{{ policy.name }}</option>
             {% endfor %}
         </select>
         <br>
-        <button type="submit">Calculate Claim</button>
+        <label>Reason for claim:</label>
+        <textarea name="description"></textarea>
+        <button type="submit" class="add-button">Calculate Claim</button>
     </form>
 </div>
 {% endblock %}
