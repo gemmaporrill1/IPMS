@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+    <h3>Claim Status Result</h3>
+    <p class="claim-text">
+        {% if claim.approval_status %}
+            You have approved the claim successfully
+        {% else %}
+            You have rejected the claim
+        {% endif %}
+    </p>
+    <button onclick="window.location.href='/home'" class="return-button">Return Home</button>
+</div>
+
+{% endblock %}

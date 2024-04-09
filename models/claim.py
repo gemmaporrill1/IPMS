@@ -12,6 +12,8 @@ class Claim(db.Model):
     claimDescription = db.Column(db.String(100))
     customerID = db.Column(db.String(50), db.ForeignKey("customers.customerID"))
     policyID = db.Column(db.String(50), db.ForeignKey("policies.policyID"))
+    approval_status = db.Column(db.Boolean)
+    claim_amount = db.Column(db.Float)
 
     def to_dict(self):
         return {
@@ -20,4 +22,6 @@ class Claim(db.Model):
             "claimDescription": self.claimDescription,
             "customerID": self.customerID,
             "policyID": self.policyID,
+            "approval_status": self.approval_status,
+            "claim_amount": self.approval_status,
         }

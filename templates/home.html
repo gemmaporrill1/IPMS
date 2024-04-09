@@ -15,6 +15,10 @@
     <p class="stats-message">Current Statistics Dashboard</p>
     <div class="stats-container">
     <div class="stats-card">
+        <h3>R {% if total_payouts %}{{ total_payouts }}{% else %}0{% endif %}</h3>
+        <p class="welcome-message">In approved payouts</p>
+    </div>
+    <div class="stats-card">
         <h3>{{claim_count}}</h3>
         <p class="welcome-message">Amount of claims calculated to date</p>
     </div>
@@ -22,6 +26,11 @@
         <h3>{{customer_count}}</h3>
         <p class="welcome-message">Loyal customers</p>
     </div>
+    <div class="stats-card">
+        <h3>{{policy_count}}</h3>
+        <p class="welcome-message">Active policies</p>
+    </div>
+    
     </div>
     </div>
 

@@ -3,24 +3,24 @@
 {% block body %}
 <div class="container">
     <h3>Claims Calculator</h3>
-    <form class="claims-form"
+    <form class="add-customer-form"
           action="{{ url_for('claims.calculate_claim') }}"
           method="POST">
-        <label for="customer">Select the customer:</label>
+        <h6 for="customer">Select the customer:</h6>
         <select name="customerID" id="customer">
             {% for customer in customers %}
                 <option value="{{ customer.customerID }}">{{ customer.name }}</option>
             {% endfor %}
         </select>
         <br>
-        <label for="policy">Select a policy:</label>
+        <h6 for="policy">Select a policy:</h6>
         <select name="policyID" id="policy">
             {% for policy in policies %}
                 <option value="{{ policy.policyID }}">{{ policy.name }}</option>
             {% endfor %}
         </select>
         <br>
-        <label>Reason for claim:</label>
+        <h6>Reason for claim:</h6>
         <textarea name="description"></textarea>
         <button type="submit" class="add-button">Calculate Claim</button>
     </form>

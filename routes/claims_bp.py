@@ -30,8 +30,21 @@ def calculate_claim():
     chosen_customer = Customer.query.get(customerID)
 
     if chosen_policy and chosen_customer:
+        # years = datetime.now().year - chosen_customer.startDate.year
         # Calculate the total contributions made by the customer over the months
-        months_contributed = (datetime.now().year - chosen_customer.startDate.year) * 12
+        # months_contributed = (datetime.now().year - chosen_customer.startDate.year) * 12
+        years = datetime.now().year - chosen_customer.startDate.year
+
+        # Calculate the difference in months
+        months = datetime.now().month - chosen_customer.startDate.month
+
+        # Adjust months if the current month is less than the start month
+        if months < 0:
+            years -= 1  # Adjust years
+            months += 12  # Add 12 months to get the correct difference
+
+        # Calculate the total months contributed
+        months_contributed = years * 12 + months
         total_contributions = chosen_policy.premium * months_contributed
 
         pay_total = total_contributions + chosen_policy.payout
@@ -41,6 +54,8 @@ def calculate_claim():
             claimDescription=description,
             customerID=chosen_customer.customerID,
             policyID=chosen_policy.policyID,
+            claim_amount=pay_total,
+            approval_status=None,
         )
 
         db.session.add(new_claim)
@@ -52,6 +67,20 @@ def calculate_claim():
             policy=chosen_policy,
             customer=chosen_customer,
             claim=new_claim,
+            months=months_contributed,
         )
     else:
         return "Invalid policy or customer ID. Please check your input."
+
+
+@claims_bp.route("/claim_approval/<claimsID>", methods=["GET", "POST"])
+@login_required
+def claim_approval(claimsID):
+    claim = Claim.query.get(claimsID)
+
+    if request.method == "POST":
+        approval_status = request.form.get("approval_status")
+        claim.approval_status = approval_status == "True"
+        db.session.commit()
+
+    return render_template("status.html", claim=claim, claimsID=claimsID)

@@ -19,7 +19,7 @@
             <td>{{customer.email}}</td>
             <td>{{customer.policy.name}}</td>
             <td>{{customer.years_difference}}</td>
-            <td><button class="add-button">Update</button>
+            <td><button class="btn btn-primary">Update</button>
                 <a href="/customer/{{ customer.id }}/delete" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</a>
             </td>
         {% endfor %}
