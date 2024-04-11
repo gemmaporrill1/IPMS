@@ -307,3 +307,17 @@ table {
   font-weight: bold;
   font-size: 24px;
 }
+
+.btn-center {
+  display: inline;
+}
+
+.btn-center form {
+  display: inline;
+  margin-right: 5px;  /* Adjust as needed for spacing between buttons */
+}
+
+.form-btn{
+  text-align: center;
+  justify-content: center;
+}

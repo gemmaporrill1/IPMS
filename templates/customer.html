@@ -19,9 +19,16 @@
             <td>{{customer.email}}</td>
             <td>{{customer.policy.name}}</td>
             <td>{{customer.years_difference}}</td>
-            <td><button class="btn btn-primary">Update</button>
-                <a href="/customer/{{ customer.id }}/delete" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</a>
+            <div class="btn-center">
+            <td>
+                <form method="post" action="{{ url_for('customers.update_customer_page', customerID=customer.customerID) }}">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form> 
+                <form method="post" action="{{ url_for('customers.delete_customer', customerID=customer.customerID) }}" onsubmit="return confirm('Are you sure you want to delete this customer?');">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>            
             </td>
+            </div>
         {% endfor %}
     </table>
 </div>

@@ -2,8 +2,7 @@
 
 {% block body %}
 <div class="container">
-    <!-- fix username -->
-    <h3>Welcome, {{user.username}}</h3> 
+    <h3>Welcome</h3> 
     <div class="btn-div">
     <p class="btn-message">What would you like to get started with?</p>
     <button class="add-button" onclick="window.location.href='/customer'">Customer Management</button>
@@ -20,7 +19,7 @@
     </div>
     <div class="stats-card">
         <h3>{{claim_count}}</h3>
-        <p class="welcome-message">Amount of claims calculated to date</p>
+        <p class="welcome-message">Amount of estimated claims calculated to date</p>
     </div>
     <div class="stats-card">
         <h3>{{customer_count}}</h3>

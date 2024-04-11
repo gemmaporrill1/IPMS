@@ -1,10 +1,12 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_required
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db
 from models.customer import Customer
 from models.policy import Policy
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
+
 
 customers_bp = Blueprint("customers", __name__)
 
@@ -17,12 +19,12 @@ def customer_management():
         name = request.form.get("name")
         email = request.form.get("email")
         policy_id = request.form.get("policyID")
-        start_date = request.form.get("startDate")
+        startDate = request.form.get("startDate")
         customers_data = Customer(
             name=name,
             email=email,
             policyID=policy_id,
-            startDate=start_date,
+            startDate=startDate,
         )
         db.session.add(customers_data)
         db.session.commit()
@@ -33,6 +35,21 @@ def customer_management():
     return render_template("customer.html", customers=customers)
 
 
+def policy_length(startDate):
+    if startDate is None:
+        return None
+
+    current_date = datetime.now()
+    years_difference = current_date.year - startDate.year
+
+    if current_date.month < startDate.month or (
+        current_date.month == startDate.month and current_date.day < startDate.day
+    ):
+        years_difference -= 1
+
+    return years_difference
+
+
 @customers_bp.route("/add_customer", methods=["GET"])
 @login_required
 def add_customer_page():
@@ -40,25 +57,43 @@ def add_customer_page():
     return render_template("add_customer.html", policies=policies)
 
 
-# fix this part
-@customers_bp.route("/customer/<id>/delete")
+# update
+@customers_bp.route("/update_customer/<customerID>", methods=["GET", "POST"])
 @login_required
-def delete_customer(id):
-    selected_customer = Policy.query.get(id)
-    if selected_customer:
-        db.session.delete(selected_customer)
+def update_customer_page(customerID):
+    policies = Policy.query.all()
+    selected_customer = Customer.query.get(customerID)
+
+    if request.method == "POST":
+        updated_name = request.form.get("name")
+        updated_email = request.form.get("email")
+        updated_policy = request.form.get("policyID")
+        updated_startDate = request.form.get("startDate")
+
+        selected_customer.name = updated_name
+        selected_customer.email = updated_email
+        selected_customer.policyID = updated_policy
+        selected_customer.startDate = updated_startDate
+
         db.session.commit()
 
-    return render_template("/customer")
+    return render_template(
+        "update_customer.html", policies=policies, selected_customer=selected_customer
+    )
 
 
-# date calculation
-def policy_length(start_date):
-    current_date = datetime.now()
-    years_difference = current_date.year - start_date.year
-    if current_date.month < start_date.month or (
-        current_date.month == start_date.month and current_date.day < start_date.day
-    ):
-        years_difference -= 1
-
-    return years_difference
+# delete
+@customers_bp.route("/customer/<customerID>/delete", methods=["GET", "POST"])
+@login_required
+def delete_customer(customerID):
+    try:
+        selected_customer = Customer.query.get(customerID)
+        if selected_customer:
+            db.session.delete(selected_customer)
+            db.session.commit()
+        return redirect(url_for("customers.customer_management"))
+    except IntegrityError:
+        error_message = (
+            "Cannot delete the customer because they have previously made a claim."
+        )
+        return render_template("error.html", error_message=error_message)

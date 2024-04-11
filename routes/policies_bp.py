@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_required
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db
 from models.policy import Policy
+from sqlalchemy.exc import IntegrityError
 
 policies_bp = Blueprint("policies", __name__)
 
@@ -35,3 +36,18 @@ def policy_page():
 @login_required
 def add_policy_page():
     return render_template("add_policy.html")
+
+@policies_bp.route("/policy/<policyID>/delete", methods=["GET", "POST"])
+@login_required
+def delete_policy(policyID):
+    try:
+        selected_policy = Policy.query.get(policyID)
+        if selected_policy:
+            db.session.delete(selected_policy)
+            db.session.commit()
+        return redirect(url_for("policies.policy_page"))
+    except IntegrityError:
+        error_message = (
+            "Cannot delete this policy because it is being actively used by customers."
+        )
+        return render_template("error.html", error_message=error_message)
