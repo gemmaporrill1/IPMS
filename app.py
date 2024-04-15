@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from sqlalchemy.sql import text
 from dotenv import load_dotenv
 from extensions import db
@@ -18,11 +18,22 @@ app = Flask(__name__, static_folder="static")
 connection_string = os.environ.get("AZURE_DATABASE_URL")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
+
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
 
 db.init_app(app)
 
 login_manager.init_app(app)
+
+try:
+    with app.app_context():
+        # Use text() to explicitly declare your SQL command
+        result = db.session.execute(text("SELECT 1")).fetchall()
+        # db.drop_all()
+        # db.create_all()
+        print("Connection successful:", result)
+except Exception as e:
+    print("Error connecting to the database:", e)
 
 
 from routes.policies_bp import policies_bp
@@ -66,14 +77,3 @@ def landing_page():
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
-
-
-try:
-    with app.app_context():
-        # Use text() to explicitly declare your SQL command
-        result = db.session.execute(text("SELECT 1")).fetchall()
-        # db.drop_all()
-        # db.create_all()
-        print("Connection successful:", result)
-except Exception as e:
-    print("Error connecting to the database:", e)

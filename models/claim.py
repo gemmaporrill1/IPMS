@@ -1,6 +1,5 @@
 import uuid
 from extensions import db
-from sqlalchemy.orm import relationship
 
 
 class Claim(db.Model):
